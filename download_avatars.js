@@ -30,6 +30,11 @@ function downloadImageByURL(url, filePath) {
   request({
     url: url
   }).pipe(fs.createWriteStream(filePath));
+
+  if (process.argv.length !== 4) {
+    let notFourArgs = `Error! Insert the name of the repo owner and the name of the repo (such as "jquery jquery"). You must have ONLY four arguments.`;
+    throw notFourArgs;
+  }
 }
 
 getRepoContributors(owner, repo, function(err, respone, body) {
@@ -37,7 +42,7 @@ getRepoContributors(owner, repo, function(err, respone, body) {
     console.log("Error!", err);
   } else {
     const data = JSON.parse(body);
-    if(!fs.existsSync('avatars')){
+    if (!fs.existsSync('avatars')) {
       fs.mkdirSync('avatars')
     }
 
