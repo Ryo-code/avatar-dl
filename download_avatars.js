@@ -23,29 +23,20 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
   console.log('requestURL------>', requestURL);
 
-  request
-    .get(options)
-    .on('error', function(err) {
-      cb(err, null);
-    })
-    .on('response', function(response) {
-      let fullData = '';
+  request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var data = JSON.parse(body);
+      cb(data);
+  } else {
+    console.log("Error!", error)
+    }
+  });
 
-      response.on('data', function(data) {
-        fullData += data;
-        console.log("666666666---> ", data.avatar_url);
-      });
-
-      response.on('end', function() {
-        const parsedResponse = JSON.parse(fullData);
-        cb(null, parsedResponse)
-      });
-    });
 }
 
 getRepoContributors("jquery", "jquery", function(err, result, contributors) {
   console.log("Errors:", err);
   console.log("Result:", result);
 
-  console.log("777777777---> Avatar URL: ", result["avatar_url"]);
+  // console.log("777777777---> Avatar URL: ", result["avatar_url"]);
 });
