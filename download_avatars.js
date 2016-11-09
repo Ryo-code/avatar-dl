@@ -1,5 +1,4 @@
 'use strict';
-
 const request = require('request');
 console.log('Welcome to the GitHub Avatar Downloader!');
 
@@ -7,7 +6,7 @@ console.log('Welcome to the GitHub Avatar Downloader!');
 function getRepoContributors(repoOwner, repoName, cb) {
 
   const GITHUB_USER = "Ryo-code";
-  const GITHUB_TOKEN = "place-holder-token"; //don't push the token to github
+  const GITHUB_TOKEN = "place-holder-token"; //秘密だ！Don't push your token to github!
 
   var requestURL = 'https://'+ GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
 
