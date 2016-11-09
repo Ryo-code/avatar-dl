@@ -21,22 +21,21 @@ function getRepoContributors(repoOwner, repoName, cb) {
     }
   };
 
-  console.log('requestURL------>', requestURL);
+  console.log('requestURL:', requestURL);
 
-  request(options, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var data = JSON.parse(body);
-      cb(data);
-  } else {
-    console.log("Error!", error)
-    }
-  });
-
+  request(options, cb);
 }
 
-getRepoContributors("jquery", "jquery", function(err, result, contributors) {
-  console.log("Errors:", err);
-  console.log("Result:", result);
-
-  // console.log("777777777---> Avatar URL: ", result["avatar_url"]);
+getRepoContributors("jquery", "jquery", function(err, respone, body) {
+  if(err){
+    console.log("Error!", err);
+  }else{
+    const data = JSON.parse(body);
+    data.forEach(function(contributor){
+      console.log(contributor.avatar_url);
+    });
+  }
 });
+
+
+//download with writestream...
