@@ -7,17 +7,26 @@ console.log("Token: ", githubToken);
 
 function getRepoContributors(repoOwner, repoName, cb) {
 
+  // const requestURL = `https://${GITHUB_USER}:${githubToken.token}@api.github.com/repos/${repoOwner}/${repoName}/contributors`;
   const requestURL = 'https://' + GITHUB_USER + ':' + githubToken.token + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
+
+  const options = {
+    url: requestURL,
+    headers: {
+      'User-Agent': "GitHub Avatar Downloader - Ryo's Project"
+    }
+  };
 
   console.log('requestURL------>', requestURL);
 
-  request.get(requestURL)
+  request.get(options)
          .on('error', function (err) {      // Note 2
            throw err;
          })
          .on('response', function (response) {  // Note 3
+          // const parsedResponse = JSON.parse(response[0]);
+          // console.log("Parsed response: ", response);
           console.log('Response Status Code: ', response.statusCode);
-
          })
 }
 
