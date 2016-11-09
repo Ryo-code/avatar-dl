@@ -1,5 +1,6 @@
 'use strict';
 const request = require('request');
+const fs = require("fs");
 
 const GITHUB_USER = "Ryo-code";
 const GITHUB_TOKEN = require('./gh-access-token');
@@ -20,22 +21,34 @@ function getRepoContributors(repoOwner, repoName, cb) {
       'User-Agent': "GitHub Avatar Downloader - Ryo's Project"
     }
   };
-
   console.log('requestURL:', requestURL);
 
   request(options, cb);
 }
 
-getRepoContributors("jquery", "jquery", function(err, respone, body) {
-  if(err){
+function downloadImageByURL(url, filePath) {
+  request({
+    url: url
+  }).pipe(fs.createWriteStream(filePath));
+}
+
+getRepoContributors(owner, repo, function(err, respone, body) {
+  if (err) {
     console.log("Error!", err);
-  }else{
+  } else {
     const data = JSON.parse(body);
-    data.forEach(function(contributor){
+    if(!fs.existsSync('avatars')){
+      fs.mkdirSync('avatars')
+    }
+
+    data.forEach(function(contributor) {
       console.log(contributor.avatar_url);
+
+      const avatarURL = contributor.avatar_url;
+      const username = contributor.login;
+      const filePath = `./avatars/${username}.jpeg`;
+
+      downloadImageByURL(avatarURL, filePath);
     });
   }
 });
-
-
-//download with writestream...
