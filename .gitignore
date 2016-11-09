@@ -45,3 +45,6 @@ jspm_packages
 
 # Yarn Integrity file
 .yarn-integrity
+
+# My personal access token
+gh-access-token.js
